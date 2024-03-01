@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      home: const MapPage(),
+      home: const Scaffold(
+        body: MapPage()
+      ),
     );
   }
 }
