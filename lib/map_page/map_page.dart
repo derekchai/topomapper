@@ -18,29 +18,48 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: FlutterMap(
-        options: const MapOptions(
-          maxZoom: 22,
-          initialCenter: LatLng(-36.9, 174.7),
-          initialZoom: 15
-        ),
-        children: [
-          TileLayer(
-            // urlTemplate: 'https://api.mapbox.com/styles/v1/derekchai/clswvy9s0002x01pt8pj307f0/tiles/256/{z}/{x}/{y}@2x?access_token=${dotenv.env['MAPBOX_ACCESS_TOKEN']}',
-            urlTemplate: 'https://tiles-cdn.koordinates.com/services;key=${dotenv.env['LINZ_DATA_SERVICE_API_KEY']}/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png',
+    return Stack(
+      children: [
+        FlutterMap(
+          options: const MapOptions(
+            
+            maxZoom: 22,
+            initialCenter: LatLng(-36.9, 174.7),
+            initialZoom: 15,
+            interactionOptions: InteractionOptions(
+              flags: InteractiveFlag.pinchZoom 
+                   | InteractiveFlag.drag 
+                   | InteractiveFlag.flingAnimation 
+                   | InteractiveFlag.doubleTapDragZoom 
+                   | InteractiveFlag.doubleTapZoom
+            ),
           ),
+          
+          children: [
+            TileLayer(
+              // urlTemplate: 'https://api.mapbox.com/styles/v1/derekchai/clswvy9s0002x01pt8pj307f0/tiles/256/{z}/{x}/{y}@2x?access_token=${dotenv.env['MAPBOX_ACCESS_TOKEN']}',
+              urlTemplate: 'https://tiles-cdn.koordinates.com/services;key=${dotenv.env['LINZ_DATA_SERVICE_API_KEY']}/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png',
+            ),
+        
+            const MapboxAttributionWidget(),
+        
+            CurrentLocationLayer(),
+        
+            HutMarkersWidget(huts: widget.huts)
+          ],
+        ),
 
-          const MapboxAttributionWidget(),
 
-          CurrentLocationLayer(),
-
-          HutMarkersWidget(huts: widget.huts)
-        ],
-      )
+        Positioned(
+          right: 1,
+          child: SafeArea(
+            child: FloatingActionButton.small(
+              onPressed: () {},
+              child: const Icon(Icons.navigation),
+            ),
+          ),
+        )
+      ]
     );
   }
 }
