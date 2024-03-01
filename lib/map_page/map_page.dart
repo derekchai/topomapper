@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
@@ -14,8 +15,6 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    const String accessToken = String.fromEnvironment('ACCESS_TOKEN');
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -28,7 +27,8 @@ class _MapPageState extends State<MapPage> {
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://api.mapbox.com/styles/v1/derekchai/clswvy9s0002x01pt8pj307f0/tiles/256/{z}/{x}/{y}@2x?access_token=$accessToken',
+            urlTemplate: 'https://api.mapbox.com/styles/v1/derekchai/clswvy9s0002x01pt8pj307f0/tiles/256/{z}/{x}/{y}@2x?access_token=${dotenv.env['MAPBOX_ACCESS_TOKEN']}',
+            // urlTemplate: 'https://tiles-cdn.koordinates.com/services;key=${dotenv.env['LDS_API_KEY']}/tiles/v4/layer=50767/EPSG:3857/%7Bz%7D/%7Bx%7D/%7By%7D.png',
           ),
           const MapboxAttributionWidget(),
           CurrentLocationLayer()

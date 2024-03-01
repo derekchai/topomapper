@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:topomapper/map_page/map_page.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'config.env');
+
   runApp(const MyApp());
 }
 
