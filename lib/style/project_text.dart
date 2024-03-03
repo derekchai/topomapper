@@ -9,7 +9,13 @@ class ProjectText {
     fontSize: 26
   );
 
-  static const TextStyle subtitle = TextStyle(
-    color: Colors.grey
+  static TextStyle subtitle({italics = false}) => TextStyle(
+    color: Colors.grey,
+    fontStyle: (italics) ? FontStyle.italic : FontStyle.normal
   );
+
+  static TextStyle link = TextStyle(
+    color: Colors.blue
+  );
+  
 }

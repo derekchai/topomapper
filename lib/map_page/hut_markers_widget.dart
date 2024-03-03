@@ -40,9 +40,14 @@ class HutMarkersWidget extends StatelessWidget {
 
                   await getHutDetailFromDocApi(e.assetId).then((result) {
                     showModalBottomSheet(
+                      isScrollControlled: true,
+                      isDismissible: true,
                       context: context, 
                       builder: (context) {
-                        return HutDetailDialog(hutDetail: result);
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: HutDetailDialog(hutDetail: result),
+                        );
                       }
                     );
                   });

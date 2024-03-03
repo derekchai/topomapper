@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:topomapper/main.dart';
 import 'package:topomapper/map_page/hut_markers_widget.dart';
 import 'package:topomapper/map_page/mapbox_attribution_widget.dart';
 import 'package:topomapper/models/hut.dart';
@@ -15,14 +18,21 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
+  late final animatedMapController = AnimatedMapController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1000), 
+    curve: Curves.easeInOut
+  );
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         FlutterMap(
+          mapController: animatedMapController.mapController,
+
           options: const MapOptions(
-            
             maxZoom: 22,
             initialCenter: LatLng(-36.9, 174.7),
             initialZoom: 15,
@@ -54,7 +64,13 @@ class _MapPageState extends State<MapPage> {
           right: 1,
           child: SafeArea(
             child: FloatingActionButton.small(
-              onPressed: () {},
+              onPressed: () async {
+                var currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+                animatedMapController.animateTo(
+                  dest: LatLng(currentPosition.latitude, currentPosition.longitude), 
+                  zoom: 14
+                );
+              },
               child: const Icon(Icons.navigation),
             ),
           ),
