@@ -10,8 +10,9 @@ class HutDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return DraggableScrollableSheet(
+      expand: false,
+      builder: (_, controller) => Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
@@ -47,19 +48,16 @@ class HutDetailDialog extends StatelessWidget {
             top: 60,
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.start,
               
                 children: [
-              
-                  for (var i = 0; i < 20; i++) Text(i.toString()),
-              
                   Row(
                     children: [
-                      Expanded(child: Text(hutDetail.name, style: ProjectText.title,)),
-                  
+                      Text(hutDetail.name, style: ProjectText.title),
+                      const Spacer(),
                       Text(hutDetail.numberOfBunks.toString()),
-                  
                       const Icon(Icons.bed)
                     ],
                   ),
@@ -76,21 +74,21 @@ class HutDetailDialog extends StatelessWidget {
                   
                   Row(
                     children: [
-                      Text(hutDetail.status),
+                      Text(hutDetail.status, style: TextStyle(color: (hutDetail.status == 'OPEN') ? Colors.green : Colors.red)),
                       const Spacer(),
                       Text((hutDetail.bookable) ? 'Bookable' : 'Not bookable'),
                     ],
                   ),
                           
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 10),
                           
                   Text(hutDetail.introduction),
                   
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 10),
                   
                   for (var facility in hutDetail.facilities) Text('· $facility'),
                           
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 10),
                           
                   InkWell(
                     onTap: () {
@@ -101,7 +99,10 @@ class HutDetailDialog extends StatelessWidget {
                   
                   const SizedBox(height: 10,),
                   
-                  Text('${hutDetail.lat}, ${hutDetail.lon}', style: ProjectText.subtitle(),),
+                  Text('${hutDetail.lat}, ${hutDetail.lon}', style: ProjectText.subtitle()),
+
+
+                  const SizedBox(height: 10),
                           
                   Text('Check with DOC staff for latest hut information before you go', style: ProjectText.subtitle(italics: true),)
                   

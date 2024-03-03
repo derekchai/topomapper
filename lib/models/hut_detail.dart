@@ -88,7 +88,7 @@ class HutDetail {
     };
 }
 
-Future<HutDetail> getHutDetailFromDocApi(int assetId) async {
+Future<HutDetail?> getHutDetailFromDocApi(int assetId) async {
   HutDetail hutDetail;
 
   final response = await http.get(
@@ -109,6 +109,6 @@ Future<HutDetail> getHutDetailFromDocApi(int assetId) async {
   } else {
     log.e('${response.statusCode}: unable to get hut detail from DOC API!');
 
-    throw UnimplementedError();
+    return null;
   }
 }

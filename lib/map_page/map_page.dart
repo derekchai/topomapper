@@ -5,7 +5,6 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:topomapper/main.dart';
 import 'package:topomapper/map_page/hut_markers_widget.dart';
 import 'package:topomapper/map_page/mapbox_attribution_widget.dart';
 import 'package:topomapper/models/hut.dart';
@@ -55,7 +54,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         
             CurrentLocationLayer(),
         
-            HutMarkersWidget(huts: widget.huts)
+            HutMarkersWidget(huts: widget.huts, controller: animatedMapController)
           ],
         ),
 
